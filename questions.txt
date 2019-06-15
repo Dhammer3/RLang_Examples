@@ -1,0 +1,7 @@
+Is .csv the only file type extension you will need to be parsed?
+
+What kind of delimeter will the file be using?
+
+how would you like missing or null values handled?
+
+do you have an example of the input file for this project?
