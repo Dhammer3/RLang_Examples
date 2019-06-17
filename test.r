@@ -3,11 +3,15 @@ install.packages("dplyr")
 install.packages("usmap")
 install.packages("renderplot")
 
-library(zipcode)
+#library(zipcode)
 library(dplyr)
 library(usmap)
 library(ggplot2)
 library(magrittr)
+
+#global variables
+low_color <- "white"
+high_color <- "red"
 
 statepop
 list_of_states <- statepop[2]
@@ -37,8 +41,8 @@ check that the data set contains at least 50 students for privacy concerns
 
 
 #combine the two data frames
-data_frame <- cbind(data_frame, new_zipcode)
-data_frame
+#data_frame <- cbind(data_frame, new_zipcode)
+#data_frame
 
 #save the file to a csv
 #data_frame <- write.csv(data_frame , csv_fileName)
@@ -65,9 +69,9 @@ data_frame
   colnames(students_in_each_state) <- c("state", "num_students")
   students_in_each_state
 
-#change the data type of col 1 to character as req by plot_usmap func
+#change the data type of col 1 to character, col 2 to double as req by plot_usmap func
 students_in_each_state[,1] <-sapply(students_in_each_state[,1], as.character)
-#students_in_each_state[,2] <-as.double(students_in_each_state$num_students)
+students_in_each_state[,2] <-as.double(students_in_each_state$num_students)
 #students_in_each_state
 
 
@@ -80,8 +84,8 @@ students_in_each_state
   #get the total of a specific occurance
   #a[names(a)=="NH"]
 
-statepop
+students_in_each_state
 plot_usmap(data = students_in_each_state, values = "num_students", lines = "red") +
   scale_fill_continuous(
-    low = "white", high = "red", name = "Population (2015)", label = scales::comma
+    low = low_color, high = high_color, name = "Population (2015)", label = scales::comma
   ) + theme(legend.position = "right")
