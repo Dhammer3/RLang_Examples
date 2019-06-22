@@ -4,7 +4,22 @@ library(dplyr)
 library(sqldf)
 
 raw_data <- read.delim2("/Users/mydesktop/desktop/r/AA_PROFILE_EXT.txt")
-raw_data
+
+write.csv(raw_data,file="C:/Users/mydesktop/Desktop/R/project1/RLang_Examples/raw_data.csv")
+
+example_csv <- read.csv("C:/Users/mydesktop/Desktop/R/project1/RLang_Examples/Ex_upload.csv")
+example_csv
+
+#create vector of random numbers
+faux_donation_info <- runif( nrow(example_csv), min=1, max=10000)
+#convert it to a dataframe
+faux_donation_info <- as.data.frame(faux_donation_info)
+#merge it back into the main database
+example_csv <- merge(example_csv, faux_donation_info)
+
+write.csv(faux_donation_info,file="C:/Users/mydesktop/Desktop/R/project1/RLang_Examples/faux_donation_info.csv")
+#write the file to example_csv
+write.csv(example_csv,file="C:/Users/mydesktop/Desktop/R/project1/RLang_Examples/Ex_upload.csv")
 
 #trim the data by creating a subset from the colnames
 trimmed <- subset(raw_data, select=c('AFFINITY_RATING'))
@@ -32,15 +47,17 @@ trimmed_data[,1] <- sapply(trimmed_data[,1], as.character)
 names(trimmed_data)[1] <- "metrics"
 
 trimmed_data
+
 #get a vector of the names of all metrics
 names=trimmed_data[,1]
+
 #get a vector of the values of the metrics
 values=trimmed_data[,2]
 
 pie(values, labels = names, main="Pie Chart of Countries", co)
 
 #example of a sql accessor
-sqldf("select * from raw_data where EMAIL_ADDRESS = 'dhammer4@asu.edu' ")
+sqldf("select * from raw_data where LAST_NAME = 'dipert' ")
 
 X =c(1:100)
 plot(X)

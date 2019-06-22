@@ -1,12 +1,13 @@
 #this file shows an example of setting colors and gradients in a modular way for R graphs
 #install.packages("ggplot2")
 
-#install.packages("extrafont")
+install.packages("scales")
 install.packages("leaflet")
 windowsFonts(A = windowsFont("Arial"))
 library("ggplot2")
 library("extrafont")
 library("leaflet")
+library("scales")
 
 #set the colors
 color_asu_maroon <- ("#8c1d40")
@@ -36,6 +37,7 @@ raw_data <- read.delim2("/Users/mydesktop/desktop/r/AA_PROFILE_EXT.txt")
 raw_data
 
 #this function produces a pie plot IAW ASU standards from raw data and a parameter
+#used when two or more groups need to be displayed
 standard_ASU_pie_plot <- function(raw_data, param, title)
 {
     #trim the data by creating a subset from the colnames
@@ -84,7 +86,7 @@ standard_ASU_gradient_bar_plot <- function(data, x_label, y_label, title)
 {
     pal <- colorRampPalette(asu_color_pallete)
     data <- sort(data)
-     barplot(xlab=x_label, ylab=y_label,main=title, family ="A", data,pch =15, col=pal(length(data)))
+     barplot(xlab=x_label, ylab=y_label,main=title, family ="A", data,pch =15, col=pal(length(data)), scale_y_continuous(labels=percent))
 }
 
 title <- "chart title"
@@ -95,3 +97,17 @@ y_label="y lab"
 standard_ASU_gradient_bar_plot(data, x_label,y_label, title)
 
 standard_ASU_pie_plot(raw_data, 'AFFINITY_RATING', "example pie pie")
+
+data=read.csv("C:/Users/mydesktop/Desktop/R/RLang_Examples/RLang_Examples/Example_Upload_File.csv")
+data
+states=data['state']
+state_pop <- as.data.frame(table(states))
+#convert the col to a char type
+state_pop[1] <- sapply(state_pop[,1],as.character)
+colnames(state_pop) <- c("state", "pop")
+state_pop
+library('usmap')
+plot_usmap(data =state_pop , values = "pop", lines = "red") +
+  scale_fill_continuous(
+    low=color_asu_grey,high=color_asu_maroon, name = "Population (2015)", label = scales::comma
+  ) + theme(legend.position = "right")
