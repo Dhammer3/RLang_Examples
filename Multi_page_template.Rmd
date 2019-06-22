@@ -60,7 +60,8 @@ Row {data-height=600}
 ```{r, out.width = "100%"}
 
 
-fileInput("uploaded_file", label="Select Type", multiple=TRUE)
+fileInput(inputId="uploaded_file", label="Select Type", multiple=TRUE)
+radioButtons(inputId="radio_buttons", label="Compare Vs. ", choices=c( 'The total population','A second list upload'), inline=TRUE)
 
 ```
 
@@ -76,7 +77,26 @@ renderPlot({
 library(usmap)
 library(ggplot2)
 
-plot_usmap(data = , values = "pop_2015", lines = "red") +
+  infile <- input$uploaded_file
+if(is.null(infile))
+{
+  return(NULL)
+}
+data=read.csv(infile$datapath)
+#set the min data size to 50 for final version
+min_data_size <- 1
+if(length(data) < min_data_size)
+{
+  return(NULL)
+}
+states=data['state']
+state_pop <- as.data.frame(table(states))
+#convert the col to a char type
+state_pop[1] <- sapply(state_pop[,1],as.character)
+colnames(state_pop) <- c("state", "pop")
+state_pop
+
+plot_usmap(data =state_pop , values = "pop", lines = "red") +
   scale_fill_continuous(
     low=color_asu_grey,high=color_asu_maroon, name = "Population (2015)", label = scales::comma
   ) + theme(legend.position = "right")
@@ -92,9 +112,16 @@ Row
 
 ```{r}
 renderPlot({
-  raw_data=input
-    standard_ASU_pie_plot(raw_data, param, title)
-    {
+
+  infile <- input$uploaded_file
+if(is.null(infile))
+{
+  return(NULL)
+}
+raw_data=read.csv(infile$datapath)
+param='state'
+title='Density by State'
+
         #trim the data by creating a subset from the colnames
         trimmed <- subset(raw_data, select=c(param))
 
@@ -135,8 +162,6 @@ renderPlot({
         #plot the pie chart
         pie(family="A",values, labels = names, main=title, col=asu_color_pallete, edges= 200, clockwise=TRUE)
 
-    }
-
 
 })
 
@@ -151,8 +176,25 @@ Row
 ### Plot2.1
 ```{r}
 renderPlot({
-  X = rnorm(100)
-  plot(X)
+    infile <- input$uploaded_file
+  if(is.null(infile))
+  {
+    return(NULL)
+  }
+  data=read.csv(infile$datapath)
+  #set the min data size to 50 for final version
+  min_data_size <- 1
+  if(length(data) < min_data_size)
+  {
+    return(NULL)
+  }
+  states=data['state']
+  state_pop <- as.data.frame(table(states))
+  #convert the col to a char type
+  state_pop[1] <- sapply(state_pop[,1],as.character)
+  colnames(state_pop) <- c("state", "pop")
+  state_pop
+  plot(state_pop['pop'])
 
 })
 
@@ -166,8 +208,25 @@ Column {data-width=350}
 
 ```{r}
 renderPlot({
-  X = rnorm(100)
-  plot(X)
+    infile <- input$uploaded_file
+  if(is.null(infile))
+  {
+    return(NULL)
+  }
+  data=read.csv(infile$datapath)
+  #set the min data size to 50 for final version
+  min_data_size <- 1
+  if(length(data) < min_data_size)
+  {
+    return(NULL)
+  }
+  states=data['state']
+  state_pop <- as.data.frame(table(states))
+  #convert the col to a char type
+  state_pop[1] <- sapply(state_pop[,1],as.character)
+  colnames(state_pop) <- c("state", "pop")
+  state_pop
+    plot(state_pop['pop'])
 
 })
 
@@ -177,8 +236,25 @@ renderPlot({
 
 ```{r}
 renderPlot({
-  X = rnorm(100)
-  plot(X)
+    infile <- input$uploaded_file
+  if(is.null(infile))
+  {
+    return(NULL)
+  }
+  data=read.csv(infile$datapath)
+  #set the min data size to 50 for final version
+  min_data_size <- 1
+  if(length(data) < min_data_size)
+  {
+    return(NULL)
+  }
+  states=data['state']
+  state_pop <- as.data.frame(table(states))
+  #convert the col to a char type
+  state_pop[1] <- sapply(state_pop[,1],as.character)
+  colnames(state_pop) <- c("state", "pop")
+  state_pop
+  plot(state_pop['pop'])
 
 })
 ```
@@ -192,8 +268,25 @@ Row
 ### Plot 3.1
 ```{r}
 renderPlot({
-  X = rnorm(100)
-  plot(X)
+    infile <- input$uploaded_file
+  if(is.null(infile))
+  {
+    return(NULL)
+  }
+  data=read.csv(infile$datapath)
+  #set the min data size to 50 for final version
+  min_data_size <- 1
+  if(length(data) < min_data_size)
+  {
+    return(NULL)
+  }
+  states=data['state']
+  state_pop <- as.data.frame(table(states))
+  #convert the col to a char type
+  state_pop[1] <- sapply(state_pop[,1],as.character)
+  colnames(state_pop) <- c("state", "pop")
+  state_pop
+  plot(state_pop['pop'])
 
 })
 
