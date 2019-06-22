@@ -73,8 +73,8 @@ Row {data-height=600}
 -----------------------------------------------------------------------
 ### Geologic Map
 ```{r}
-renderPlot({
-library(usmap)
+renderLeaflet({
+library(leaflet)
 library(ggplot2)
 
   infile <- input$uploaded_file
@@ -96,10 +96,13 @@ state_pop[1] <- sapply(state_pop[,1],as.character)
 colnames(state_pop) <- c("state", "pop")
 state_pop
 
-plot_usmap(data =state_pop , values = "pop", lines = "red") +
-  scale_fill_continuous(
-    low=color_asu_grey,high=color_asu_maroon, name = "Population (2015)", label = scales::comma
-  ) + theme(legend.position = "right")
+m <- leaflet(data = data) %>% addTiles() %>% addMarkers(~longitude, ~latitude, popup = ~as.character(FirstName)) %>% setView(-71.0382679, 42.3489054, zoom =2)
+
+
+#plot_usmap(data =state_pop , values = "pop", lines = "red") +
+#  scale_fill_continuous(
+#    low=color_asu_grey,high=color_asu_maroon, name = "Population #(2015)", label = scales::comma
+ # ) + theme(legend.position = "right")
 
 })
 
