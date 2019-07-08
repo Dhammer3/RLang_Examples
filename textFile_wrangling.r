@@ -2,6 +2,11 @@
 5+5
 library(dplyr)
 library(sqldf)
+library(ggplot2)
+library(usmap)
+
+library(tidyr)
+library(tidyverse)
 
 raw_data <- read.delim2("/Users/mydesktop/desktop/r/AA_PROFILE_EXT.txt")
 
@@ -42,6 +47,12 @@ trimmed_data <- na.omit(trimmed_data)
 
 #change the data type of the first col
 trimmed_data[,1] <- sapply(trimmed_data[,1], as.character)
+
+#using tidy and tidyverse...
+#https://r4ds.had.co.nz/tidy-data.html
+#show the donationa amounts per state.
+data%>%
+count(state, wt=Donation_amount)
 
 #rename the first col to metrics
 names(trimmed_data)[1] <- "metrics"
