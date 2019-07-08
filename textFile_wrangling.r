@@ -70,11 +70,6 @@ pie(values, labels = names, main="Pie Chart of Countries", co)
 #example of a sql accessor
 sqldf("select * from raw_data where LAST_NAME = 'hello' ")
 
-#using tidy and tidyverse...
-#https://r4ds.had.co.nz/tidy-data.html
-#show the donationa amounts per state.
-data%>%
-count(state, wt=Donation_amount)
 
 X =c(1:100)
 plot(X)
